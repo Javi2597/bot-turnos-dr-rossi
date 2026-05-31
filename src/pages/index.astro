@@ -1,0 +1,305 @@
+---
+import '../styles/global.css';
+import BookingForm from '../components/BookingForm/BookingForm';
+---
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dra. Valentina Rossi · Nutricionista Clínica</title>
+  <meta name="description" content="Planes nutricionales personalizados para mejorar tu bienestar, rendimiento y calidad de vida. Atención presencial en Palermo y online." />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #0b1f3a; --blue: #1a4a8a; --sky: #2e7dd1;
+      --light: #e8f1fb; --accent: #4db8a4; --gold: #c8a96e;
+      --text: #1a2638; --muted: #6b7f96; --white: #ffffff;
+      --bg: #f5f8fc; --border: #d5e3f0;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; font-weight: 400; color: var(--text); background: var(--bg); overflow-x: hidden; line-height: 1.6; }
+    nav { position: fixed; top: 0; width: 100%; z-index: 100; background: rgba(11,31,58,0.97); backdrop-filter: blur(12px); padding: 0 1.2rem; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; color: var(--white); text-decoration: none; }
+    .nav-logo span { color: var(--accent); }
+    .nav-cta { background: var(--accent); color: var(--white); padding: 0.5rem 1.1rem; border-radius: 50px; font-size: 0.82rem; font-weight: 600; text-decoration: none; transition: opacity 0.2s; }
+    .nav-cta:hover { opacity: 0.88; }
+    .nav-links { display: none; list-style: none; gap: 1.8rem; }
+    .nav-links a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.88rem; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--white); }
+    @media (min-width: 768px) { .nav-links { display: flex; } nav { padding: 0 4vw; } }
+    .hero { min-height: 100svh; background: linear-gradient(160deg, var(--navy) 0%, #0d2d5c 60%, #12407a 100%); display: flex; flex-direction: column; padding: 80px 1.4rem 3rem; position: relative; overflow: hidden; }
+    .hero-bg-circle { position: absolute; border-radius: 50%; background: rgba(46,125,209,0.08); pointer-events: none; }
+    .hero-bg-circle.c1 { width: 500px; height: 500px; top: -100px; right: -150px; }
+    .hero-bg-circle.c2 { width: 300px; height: 300px; bottom: 50px; left: -80px; background: rgba(77,184,164,0.07); }
+    .hero-content { position: relative; z-index: 1; max-width: 520px; margin: auto 0; padding: 2rem 0; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(77,184,164,0.15); border: 1px solid rgba(77,184,164,0.35); color: var(--accent); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.3rem 0.8rem; border-radius: 50px; margin-bottom: 1.4rem; animation: fadeUp 0.6s ease both; }
+    .hero-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 8vw, 3.6rem); font-weight: 700; line-height: 1.1; color: var(--white); margin-bottom: 1rem; animation: fadeUp 0.6s 0.1s ease both; }
+    .hero h1 em { font-style: italic; color: var(--accent); }
+    .hero-sub { font-size: 1rem; color: rgba(255,255,255,0.7); margin-bottom: 2rem; max-width: 400px; animation: fadeUp 0.6s 0.2s ease both; }
+    .hero-ctas { display: flex; flex-direction: column; gap: 0.8rem; animation: fadeUp 0.6s 0.3s ease both; }
+    .btn-primary { background: var(--accent); color: var(--white); padding: 0.95rem 1.8rem; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 0.95rem; text-align: center; transition: transform 0.15s, opacity 0.15s; }
+    .btn-primary:hover { transform: translateY(-2px); opacity: 0.92; }
+    .btn-outline { border: 1.5px solid rgba(255,255,255,0.3); color: var(--white); padding: 0.95rem 1.8rem; border-radius: 12px; text-decoration: none; font-weight: 500; font-size: 0.95rem; text-align: center; transition: border-color 0.2s, background 0.2s; }
+    .btn-outline:hover { border-color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.05); }
+    .hero-stats { display: flex; gap: 1.5rem; margin-top: 2.5rem; animation: fadeUp 0.6s 0.4s ease both; }
+    .hero-stat { text-align: center; }
+    .hero-stat-num { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--white); display: block; }
+    .hero-stat-label { font-size: 0.72rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.05em; }
+    .hero-stat-divider { width: 1px; background: rgba(255,255,255,0.15); align-self: stretch; }
+    .hero-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 24px; padding: 2rem; max-width: 340px; margin: 2rem auto 0; backdrop-filter: blur(8px); animation: fadeUp 0.6s 0.5s ease both; }
+    .hero-card-avatar { width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg, var(--sky), var(--accent)); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin-bottom: 1rem; }
+    .hero-card h3 { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--white); margin-bottom: 0.2rem; }
+    .hero-card p { font-size: 0.82rem; color: rgba(255,255,255,0.55); margin-bottom: 1rem; }
+    .hero-card-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .hero-card-tag { background: rgba(77,184,164,0.15); border: 1px solid rgba(77,184,164,0.3); color: var(--accent); font-size: 0.72rem; padding: 0.25rem 0.6rem; border-radius: 50px; }
+    @media (min-width: 640px) { .hero-ctas { flex-direction: row; } .hero { padding: 80px 4vw 4rem; } }
+    @media (min-width: 1024px) { .hero { flex-direction: row; align-items: center; padding: 80px 6vw 4rem; } .hero-content { max-width: 600px; margin: 0; } .hero-card { margin: 0; max-width: 320px; } }
+    section { padding: 4rem 1.4rem; }
+    @media (min-width: 768px) { section { padding: 5rem 4vw; } }
+    @media (min-width: 1200px) { section { padding: 6rem 8vw; } }
+    .section-tag { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sky); margin-bottom: 0.8rem; display: block; }
+    h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 700; line-height: 1.15; color: var(--navy); margin-bottom: 1rem; }
+    .section-desc { color: var(--muted); max-width: 520px; margin-bottom: 2.5rem; font-size: 0.95rem; }
+    .services { background: var(--white); }
+    .services-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-top: 2rem; }
+    @media (min-width: 640px) { .services-grid { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 1024px) { .services-grid { grid-template-columns: repeat(3, 1fr); } }
+    .service-card { background: var(--bg); border: 1px solid var(--border); border-radius: 16px; padding: 1.6rem; transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s; }
+    .service-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(11,31,58,0.1); border-color: var(--sky); }
+    .service-icon { width: 48px; height: 48px; border-radius: 12px; background: var(--light); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 1rem; }
+    .service-card h3 { font-size: 1rem; font-weight: 600; color: var(--navy); margin-bottom: 0.4rem; }
+    .service-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; margin-bottom: 1rem; }
+    .service-price { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--blue); }
+    .service-price span { font-family: 'DM Sans', sans-serif; font-size: 0.78rem; color: var(--muted); font-weight: 400; }
+    .about { background: var(--navy); }
+    .about h2 { color: var(--white); }
+    .about .section-tag { color: var(--accent); }
+    .about .section-desc { color: rgba(255,255,255,0.6); }
+    .about-grid { display: grid; gap: 2rem; grid-template-columns: 1fr; }
+    @media (min-width: 900px) { .about-grid { grid-template-columns: 1fr 1fr; align-items: center; } }
+    .about-image { background: linear-gradient(135deg, var(--blue), var(--accent)); border-radius: 20px; aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; font-size: 5rem; }
+    .credentials { margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.8rem; }
+    .credential { display: flex; align-items: center; gap: 0.8rem; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 0.8rem 1rem; }
+    .credential-icon { font-size: 1.2rem; flex-shrink: 0; }
+    .credential-text { font-size: 0.85rem; color: rgba(255,255,255,0.8); }
+    .credential-text strong { color: var(--white); font-weight: 600; display: block; }
+    .process { background: var(--light); }
+    .process-steps { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
+    @media (min-width: 900px) { .process-steps { flex-direction: row; } }
+    .process-step { flex: 1; background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 1.6rem; transition: box-shadow 0.2s; }
+    .process-step:hover { box-shadow: 0 8px 24px rgba(11,31,58,0.08); }
+    .step-num { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; color: var(--light); line-height: 1; margin-bottom: 0.8rem; }
+    .process-step h3 { font-size: 1rem; font-weight: 600; color: var(--navy); margin-bottom: 0.4rem; }
+    .process-step p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+    .step-connector { display: none; width: 40px; align-self: center; text-align: center; color: var(--sky); font-size: 1.2rem; flex-shrink: 0; }
+    @media (min-width: 900px) { .step-connector { display: block; } }
+    .testimonials { background: var(--white); }
+    .testimonials-grid { display: grid; gap: 1rem; grid-template-columns: 1fr; margin-top: 2rem; }
+    @media (min-width: 640px) { .testimonials-grid { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 1024px) { .testimonials-grid { grid-template-columns: repeat(3, 1fr); } }
+    .testimonial { background: var(--bg); border: 1px solid var(--border); border-radius: 16px; padding: 1.6rem; position: relative; }
+    .testimonial::before { content: '"'; font-family: 'Playfair Display', serif; font-size: 4rem; line-height: 0; color: var(--sky); opacity: 0.3; position: absolute; top: 1.4rem; left: 1.2rem; }
+    .testimonial-text { font-size: 0.88rem; color: var(--muted); line-height: 1.7; margin-bottom: 1.2rem; padding-top: 1rem; }
+    .testimonial-author { display: flex; align-items: center; gap: 0.7rem; }
+    .author-avatar { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, var(--sky), var(--accent)); display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; color: var(--white); flex-shrink: 0; }
+    .author-name { font-size: 0.88rem; font-weight: 600; color: var(--navy); }
+    .author-role { font-size: 0.76rem; color: var(--muted); }
+    .stars { color: #f4c430; font-size: 0.8rem; margin-bottom: 0.8rem; }
+    .faq { background: var(--bg); }
+    .faq-list { max-width: 680px; margin-top: 2rem; }
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-q { width: 100%; background: none; border: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 0; text-align: left; font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 600; color: var(--navy); gap: 1rem; }
+    .faq-q::after { content: '+'; color: var(--sky); font-size: 1.3rem; flex-shrink: 0; transition: transform 0.2s; }
+    .faq-item.open .faq-q::after { transform: rotate(45deg); }
+    .faq-a { font-size: 0.88rem; color: var(--muted); line-height: 1.7; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s; }
+    .faq-item.open .faq-a { max-height: 200px; padding-bottom: 1.2rem; }
+    .cta-section { background: linear-gradient(135deg, var(--navy) 0%, #0d2d5c 100%); text-align: center; padding: 4rem 1.4rem; position: relative; overflow: hidden; }
+    .cta-section::before { content: ''; position: absolute; width: 400px; height: 400px; border-radius: 50%; background: rgba(77,184,164,0.08); top: -100px; right: -100px; pointer-events: none; }
+    .cta-section h2 { color: var(--white); margin-bottom: 1rem; }
+    .cta-section p { color: rgba(255,255,255,0.65); margin-bottom: 2rem; font-size: 0.95rem; }
+    .cta-buttons { display: flex; flex-direction: column; gap: 0.8rem; align-items: center; }
+    @media (min-width: 480px) { .cta-buttons { flex-direction: row; justify-content: center; } }
+    footer { background: #060f1c; padding: 2.5rem 1.4rem; text-align: center; }
+    .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--white); margin-bottom: 1rem; display: block; }
+    .footer-logo span { color: var(--accent); }
+    .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.2rem; margin-bottom: 1.5rem; }
+    .footer-links a { color: rgba(255,255,255,0.45); font-size: 0.82rem; text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--white); }
+    .footer-copy { font-size: 0.75rem; color: rgba(255,255,255,0.3); }
+    .wa-float { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 99; width: 56px; height: 56px; border-radius: 50%; background: #25d366; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(37,211,102,0.4); text-decoration: none; font-size: 1.6rem; transition: transform 0.2s; animation: pulse 2s infinite; }
+    .wa-float:hover { transform: scale(1.1); }
+    @keyframes pulse { 0%, 100% { box-shadow: 0 4px 20px rgba(37,211,102,0.4); } 50% { box-shadow: 0 4px 32px rgba(37,211,102,0.65); } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .booking-section { background: var(--white); }
+    .booking-wrapper { background: var(--bg); border: 1px solid var(--border); border-radius: 24px; padding: 2.5rem 1.6rem; max-width: 600px; margin-top: 2rem; }
+    @media (min-width: 640px) { .booking-wrapper { padding: 2.5rem 2.5rem; } }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="#" class="nav-logo">Dra. <span>Valentina</span> Rossi</a>
+    <ul class="nav-links">
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#sobre-mi">Sobre mí</a></li>
+      <li><a href="#testimonios">Testimonios</a></li>
+      <li><a href="#turno">Turnos</a></li>
+    </ul>
+    <a href="#turno" class="nav-cta">Pedir turno</a>
+  </nav>
+
+  <section class="hero" id="inicio">
+    <div class="hero-bg-circle c1"></div>
+    <div class="hero-bg-circle c2"></div>
+    <div class="hero-content">
+      <div class="hero-badge">Nutricionista Clínica · Mat. 12847</div>
+      <h1>Tu salud empieza con lo que <em>comés</em> hoy.</h1>
+      <p class="hero-sub">Planes nutricionales personalizados para mejorar tu bienestar, rendimiento y calidad de vida. Atención presencial y online.</p>
+      <div class="hero-ctas">
+        <a href="#turno" class="btn-primary">Reservar turno →</a>
+        <a href="#servicios" class="btn-outline">Ver servicios</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><span class="hero-stat-num">+400</span><span class="hero-stat-label">Pacientes</span></div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat"><span class="hero-stat-num">8 años</span><span class="hero-stat-label">Experiencia</span></div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat"><span class="hero-stat-num">Online</span><span class="hero-stat-label">Disponible</span></div>
+      </div>
+    </div>
+    <div class="hero-card reveal">
+      <div class="hero-card-avatar">👩‍⚕️</div>
+      <h3>Dra. Valentina Rossi</h3>
+      <p>Lic. en Nutrición · UBA · Especialista en nutrición clínica y deportiva</p>
+      <div class="hero-card-tags">
+        <span class="hero-card-tag">Nutrición clínica</span>
+        <span class="hero-card-tag">Deportiva</span>
+        <span class="hero-card-tag">Vegetariana</span>
+        <span class="hero-card-tag">Diabetes</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="services" id="servicios">
+    <span class="section-tag">¿En qué puedo ayudarte?</span>
+    <h2>Servicios nutricionales</h2>
+    <p class="section-desc">Cada plan está diseñado según tu objetivo, estilo de vida y condición de salud. Sin dietas genéricas.</p>
+    <div class="services-grid reveal">
+      <div class="service-card"><div class="service-icon">⚖️</div><h3>Control de peso</h3><p>Planes sostenibles para bajar o subir de peso sin pasar hambre. Enfoque en hábitos duraderos.</p><div class="service-price">$12.000 <span>/ consulta</span></div></div>
+      <div class="service-card"><div class="service-icon">🏃</div><h3>Nutrición deportiva</h3><p>Optimizá tu rendimiento y recuperación. Para atletas amateur y de competición.</p><div class="service-price">$14.000 <span>/ consulta</span></div></div>
+      <div class="service-card"><div class="service-icon">🩺</div><h3>Nutrición clínica</h3><p>Manejo nutricional de diabetes, colesterol, hipertensión, SOP y otras patologías.</p><div class="service-price">$14.000 <span>/ consulta</span></div></div>
+      <div class="service-card"><div class="service-icon">🌱</div><h3>Nutrición vegana</h3><p>Planes completos y equilibrados para personas veganas o vegetarianas.</p><div class="service-price">$12.000 <span>/ consulta</span></div></div>
+      <div class="service-card"><div class="service-icon">👶</div><h3>Nutrición infantil</h3><p>Alimentación saludable para niños y adolescentes en etapas de crecimiento.</p><div class="service-price">$12.000 <span>/ consulta</span></div></div>
+      <div class="service-card"><div class="service-icon">💻</div><h3>Consulta online</h3><p>Atención por videollamada desde cualquier parte del país. Mismo nivel de atención.</p><div class="service-price">$10.000 <span>/ consulta</span></div></div>
+    </div>
+  </section>
+
+  <section class="about" id="sobre-mi">
+    <div class="about-grid">
+      <div class="reveal">
+        <span class="section-tag">Sobre mí</span>
+        <h2>Nutrición con evidencia y calidez humana</h2>
+        <p class="section-desc">Creo en una nutrición flexible, sin restricciones extremas y adaptada a cada persona. Mi objetivo es que puedas comer bien sin que sea una carga.</p>
+        <div class="credentials">
+          <div class="credential"><div class="credential-icon">🎓</div><div class="credential-text"><strong>Lic. en Nutrición — UBA</strong>Graduada con honores · 2016</div></div>
+          <div class="credential"><div class="credential-icon">🏅</div><div class="credential-text"><strong>Especialización en Nutrición Deportiva</strong>Instituto Universitario del Deporte · 2019</div></div>
+          <div class="credential"><div class="credential-icon">📍</div><div class="credential-text"><strong>Consultorio presencial</strong>Palermo, Buenos Aires · y atención online</div></div>
+          <div class="credential"><div class="credential-icon">✅</div><div class="credential-text"><strong>Matrícula 12847 — Colegio de Nutricionistas</strong>Habilitada y registrada</div></div>
+        </div>
+      </div>
+      <div class="about-image reveal">🥗</div>
+    </div>
+  </section>
+
+  <section class="process">
+    <span class="section-tag">¿Cómo funciona?</span>
+    <h2>Tu camino hacia una mejor nutrición</h2>
+    <p class="section-desc">Un proceso simple y personalizado en 4 pasos.</p>
+    <div class="process-steps reveal">
+      <div class="process-step"><div class="step-num">01</div><h3>Primera consulta</h3><p>Evaluación completa: historia clínica, hábitos, objetivos y estilo de vida.</p></div>
+      <div class="step-connector">→</div>
+      <div class="process-step"><div class="step-num">02</div><h3>Plan personalizado</h3><p>Diseño de tu plan nutricional adaptado a tus gustos y objetivos específicos.</p></div>
+      <div class="step-connector">→</div>
+      <div class="process-step"><div class="step-num">03</div><h3>Seguimiento</h3><p>Controles periódicos para ajustar el plan según tus avances y necesidades.</p></div>
+      <div class="step-connector">→</div>
+      <div class="process-step"><div class="step-num">04</div><h3>Resultados reales</h3><p>Alcanzás tus objetivos con un plan sostenible en el tiempo. Sin rebotes.</p></div>
+    </div>
+  </section>
+
+  <section class="testimonials" id="testimonios">
+    <span class="section-tag">Lo que dicen mis pacientes</span>
+    <h2>Resultados que hablan solos</h2>
+    <div class="testimonials-grid reveal">
+      <div class="testimonial"><div class="stars">★★★★★</div><p class="testimonial-text">Bajé 12 kilos en 4 meses sin pasar hambre. Lo mejor fue aprender a comer bien para siempre, no hacer una dieta y ya.</p><div class="testimonial-author"><div class="author-avatar">MG</div><div><div class="author-name">Marcela G.</div><div class="author-role">Administradora · 38 años</div></div></div></div>
+      <div class="testimonial"><div class="stars">★★★★★</div><p class="testimonial-text">Como deportista amateur, mejoré mis tiempos y mi recuperación después de entrenar. El plan deportivo fue un cambio total.</p><div class="testimonial-author"><div class="author-avatar">RL</div><div><div class="author-name">Roberto L.</div><div class="author-role">Runner amateur · 42 años</div></div></div></div>
+      <div class="testimonial"><div class="stars">★★★★★</div><p class="testimonial-text">Tengo diabetes tipo 2 y gracias a Val logré controlar mis niveles sin medicación extra. Super profesional y humana.</p><div class="testimonial-author"><div class="author-avatar">SC</div><div><div class="author-name">Sandra C.</div><div class="author-role">Docente · 55 años</div></div></div></div>
+    </div>
+  </section>
+
+  <!-- BOOKING FORM (React) -->
+  <section class="booking-section" id="turno">
+    <span class="section-tag">¿Listo para empezar?</span>
+    <h2>Reservá tu turno</h2>
+    <p class="section-desc">Seleccioná fecha y horario disponible. Recibirás la confirmación en tu email con la invitación al calendario.</p>
+    <div class="booking-wrapper reveal">
+      <BookingForm client:load />
+    </div>
+  </section>
+
+  <section class="faq">
+    <span class="section-tag">Preguntas frecuentes</span>
+    <h2>Todo lo que querés saber</h2>
+    <div class="faq-list reveal">
+      <div class="faq-item"><button class="faq-q">¿Cuánto dura la primera consulta?</button><div class="faq-a">La primera consulta dura entre 60 y 75 minutos. Es una evaluación completa donde hablamos de tu historia clínica, hábitos alimentarios, objetivos y estilo de vida.</div></div>
+      <div class="faq-item"><button class="faq-q">¿En cuánto tiempo veo resultados?</button><div class="faq-a">Depende del objetivo, pero la mayoría de los pacientes nota cambios en las primeras 3-4 semanas. Resultados sostenibles y sin rebotes se logran en 3 a 6 meses.</div></div>
+      <div class="faq-item"><button class="faq-q">¿Cómo son las consultas online?</button><div class="faq-a">Las consultas online se realizan por videollamada (Zoom o Meet). Tenés que completar un formulario previo con tus datos y foto de tus últimos análisis si tenés.</div></div>
+      <div class="faq-item"><button class="faq-q">¿Aceptan obras sociales?</button><div class="faq-a">Actualmente atendemos de forma particular. Te puedo dar una factura para que presentes en tu obra social y solicites el reintegro correspondiente.</div></div>
+      <div class="faq-item"><button class="faq-q">¿Hay seguimiento entre consultas?</button><div class="faq-a">Sí. Tenés acceso a consultas express por WhatsApp entre sesiones para resolver dudas puntuales sobre el plan o los alimentos.</div></div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <h2>Tu mejor versión empieza hoy.</h2>
+    <p>Reservá tu primera consulta y empezamos a trabajar juntos hacia tus objetivos.</p>
+    <div class="cta-buttons">
+      <a href="#turno" class="btn-primary">Reservar turno →</a>
+      <a href="https://wa.me/5491100000000?text=Hola!%20Quiero%20pedir%20un%20turno" class="btn-outline">💬 WhatsApp</a>
+    </div>
+  </section>
+
+  <footer>
+    <span class="footer-logo">Dra. Valentina <span>Rossi</span></span>
+    <div class="footer-links">
+      <a href="#servicios">Servicios</a>
+      <a href="#sobre-mi">Sobre mí</a>
+      <a href="#testimonios">Testimonios</a>
+      <a href="#turno">Turnos</a>
+    </div>
+    <p class="footer-copy">© 2025 Dra. Valentina Rossi · Nutricionista · Mat. 12847 · Buenos Aires</p>
+  </footer>
+
+  <a href="https://wa.me/5491100000000?text=Hola!%20Quiero%20pedir%20un%20turno" class="wa-float" target="_blank">💬</a>
+
+  <script>
+    document.querySelectorAll('.faq-q').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.parentElement;
+        if (!item) return;
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+        if (!isOpen) item.classList.add('open');
+      });
+    });
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>
