@@ -73,7 +73,7 @@ export async function createAppointment(data: {
 
   const res = await calendar.events.insert({
     calendarId,
-    sendUpdates: 'all',
+    sendUpdates: 'none',
     requestBody: {
       summary: `Turno - ${data.name} ${data.lastName}`,
       description: `Tel: ${data.phone} | Email: ${data.email} | Motivo: ${data.reason}`,
@@ -85,7 +85,6 @@ export async function createAppointment(data: {
         dateTime: toLocalISO(endDt),
         timeZone: timezone,
       },
-      attendees: [{ email: data.email, displayName: `${data.name} ${data.lastName}` }],
     },
   });
 
