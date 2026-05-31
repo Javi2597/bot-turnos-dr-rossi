@@ -2,8 +2,8 @@ import { google } from 'googleapis';
 import { BOOKING_CONFIG } from '../config/booking';
 
 function getAuthClient() {
-  const email = import.meta.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
-  const key = import.meta.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n');
+  const email = import.meta.env.GOOGLE_SERVICE_ACCOUNT_EMAIL?.trim();
+  const key = import.meta.env.GOOGLE_PRIVATE_KEY?.trim().replace(/\\n/g, '\n');
 
   if (!email || !key) {
     throw new Error('Missing Google service account credentials in environment variables');
@@ -22,7 +22,7 @@ function getCalendar() {
 }
 
 export async function getBusySlots(dateStr: string): Promise<{ start: string; end: string }[]> {
-  const calendarId = import.meta.env.GOOGLE_CALENDAR_ID;
+  const calendarId = import.meta.env.GOOGLE_CALENDAR_ID?.trim();
   if (!calendarId) throw new Error('Missing GOOGLE_CALENDAR_ID');
 
   const calendar = getCalendar();
@@ -55,7 +55,7 @@ export async function createAppointment(data: {
   time: string;
   reason: string;
 }): Promise<{ eventId: string; htmlLink: string }> {
-  const calendarId = import.meta.env.GOOGLE_CALENDAR_ID;
+  const calendarId = import.meta.env.GOOGLE_CALENDAR_ID?.trim();
   if (!calendarId) throw new Error('Missing GOOGLE_CALENDAR_ID');
 
   const calendar = getCalendar();
