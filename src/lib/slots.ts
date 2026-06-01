@@ -39,25 +39,26 @@ export function filterAvailableSlots(
   const allSlots = generateSlotsForDay();
   const { slotDurationMinutes, minAdvanceHours, timezone } = BOOKING_CONFIG;
 
-  const nowInBsAs = new Date(
-    new Date().toLocaleString('en-US', { timeZone: timezone })
-  );
+  const now = new Date();
+  // Get current date in Buenos Aires timezone for isToday check
+  const todayBsAs = now.toLocaleDateString('en-CA', { timeZone: timezone }); // "YYYY-MM-DD"
+  const [ny, nm, nd] = todayBsAs.split('-').map(Number);
 
   const [year, month, day] = dateStr.split('-').map(Number);
-  const isToday =
-    nowInBsAs.getFullYear() === year &&
-    nowInBsAs.getMonth() + 1 === month &&
-    nowInBsAs.getDate() === day;
+  const isToday = ny === year && nm === month && nd === day;
 
   const minAdvanceMs = minAdvanceHours * 60 * 60 * 1000;
 
   return allSlots.map((slotTime) => {
     const [h, m] = slotTime.split(':').map(Number);
-    const slotStart = new Date(year, month - 1, day, h, m);
+    // Build proper UTC timestamp using the Buenos Aires offset (-03:00)
+    const hh = String(h).padStart(2, '0');
+    const mm = String(m).padStart(2, '0');
+    const slotStart = new Date(`${dateStr}T${hh}:${mm}:00-03:00`);
     const slotEnd = new Date(slotStart.getTime() + slotDurationMinutes * 60 * 1000);
 
     // Filter past slots (with minimum advance)
-    if (isToday && slotStart.getTime() - nowInBsAs.getTime() < minAdvanceMs) {
+    if (isToday && slotStart.getTime() - now.getTime() < minAdvanceMs) {
       return { time: slotTime, available: false };
     }
 
